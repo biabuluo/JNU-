@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.jnu.devhub.mapper.BlogPostMapper">
+    <!--    查询特定博客-->
+    <select id="findBlogPosts" parameterType="BlogPostDTO" resultType="BlogPostVO">
+        select * from t_blog_post
+        <where>
+            <if test="id!=0">
+                and id = #{id}
+            </if>
+            <if test="title!=null and title!=''">
+                and title = #{title}
+            </if>
+            <if test="authorId!=null and authorId!=''">
+                and author_id = #{authorId}
+            </if>
+            <if test="updatedTime!=null">
+                and updated_time = #{updatedTime}
+            </if>
+        </where>
+    </select>
+<!--修改博客信息-->
+    <update id="updateBlogPost" parameterType="BlogPostDTO">
+        update t_blog_post
+        <set>
+            <if test="title!=null and title!=''">
+                title = #{title},
+            </if>
+            <if test="content!=null and content!=''">
+                content = #{content},
+            </if>
+            <if test="authorId!=0">
+                author_id = #{authorId},
+            </if>
+            <if test="updatedTime!=null">
+                updated_time = #{updatedTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+<!--新增blog-->
+    <insert id="addBlogPost" parameterType="BlogPostDTO">
+        insert into t_blog_post(title, content, author_id)
+        values (#{title}, #{content}, #{authorId})
+    </insert>
+<!--  删除 -->
+    <delete id="deleteBlogPost" parameterType="BlogPostDTO">
+        delete from t_blog_post
+        where id = #{id}
+    </delete>
+    <select id="findBlogPostByBlurSearch" parameterType="BlogPostDTO">
+        select * from t_blog_post where content like #{content}
+    </select>
+</mapper>

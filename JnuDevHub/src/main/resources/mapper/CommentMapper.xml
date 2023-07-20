@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.jnu.devhub.mapper.CommentMapper">
+
+<!--查找特定评论-->
+    <select id="findComments" parameterType="CommentDTO" resultType="CommentVO">
+        select * from t_comment
+        <where>
+            <if test="id!=0">
+                and id = #{id}
+            </if>
+            <if test="postId!=0">
+                and post_id = #{postId}
+            </if>
+            <if test="authorId!=0">
+                and author_id = #{authorId}
+            </if>
+        </where>
+    </select>
+<!-- 删除特定评论-->
+    <delete id="deleteComment" parameterType="CommentDTO">
+        delete from t_comment where id = #{id}
+    </delete>
+<!--    修改特定评论-->
+    <update id="updateComment" parameterType="CommentDTO">
+        update t_comment
+        <set>
+            <if test="postId!=0">
+                post_id = #{postId},
+            </if>
+            <if test="authorId!=0">
+                author_id = #{authorId},
+            </if>
+            <if test="content!=null and content!=''">
+                content = #{content},
+            </if>
+            <if test="updatedTime!=null">
+                updated_time = #{updatedTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+<!--    添加特定评论-->
+    <insert id="addComment" parameterType="CommentDTO">
+        insert into t_comment(post_id, author_id, content)
+        values (#{postId}, #{authorId}, #{content})
+    </insert>
+</mapper>

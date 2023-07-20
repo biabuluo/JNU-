@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.jnu.devhub.mapper.ProfileMapper">
+
+<!--    查询特定用户资料信息-->
+    <select id="findProfileByUserId" parameterType="ProfileDTO" resultType="ProfileVO">
+        select * from t_user_profile
+        where userId = #{userId}
+    </select>
+<!--    修改特定用户资料信息-->
+    <update id="updateProfileByUserId" parameterType="ProfileDTO">
+        update t_user_profile
+        <set>
+            <if test="avatar!=null and avatar!=''">
+                avatar = #{avatar},
+            </if>
+            <if test="nickname!=null and nickname!=''">
+                nickname = #{nickname},
+            </if>
+            <if test="bio!=null and bio!=''">
+                bio = #{bio},
+            </if>
+        </set>
+        where userId = #{userId}
+    </update>
+<!--    添加特定用户资料信息-->
+    <insert id="addProfileByUserId" parameterType="ProfileDTO">
+        insert into t_user_profile
+        (userId
+         <trim>
+             <if test="avatar!=null and avatar!=''">
+                 ,avatar
+             </if>
+             <if test="nickname!=null and nickname!=''">
+                 ,nickname
+             </if>
+             <if test="bio!=null and bio!=''">
+                 ,bio
+             </if>
+         </trim>)
+         values ( #{userId}
+        <trim>
+            <if test="avatar!=null and avatar!=''">
+                ,#{avatar}
+            </if>
+            <if test="nickname!=null and nickname!=''">
+                ,#{nickname}
+            </if>
+            <if test="bio!=null and bio!=''">
+                ,#{bio}
+            </if>
+        </trim>)
+    </insert>
+<!--    删除特定用户资料信息-->
+    <delete id="deleteProfileByUserId" parameterType="ProfileDTO">
+        delete from t_user_profile where userId = #{userId}
+    </delete>
+</mapper>

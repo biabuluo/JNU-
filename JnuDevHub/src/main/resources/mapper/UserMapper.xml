@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.jnu.devhub.mapper.UserMapper">
+
+<!--   //根据提供信息查找特定用户 -->
+    <select id="findUsers" resultType="UserVO" parameterType="UserDTO">
+        select * from t_user
+        <where>
+            <if test="id!=0">
+                and id = #{id}
+            </if>
+            <if test="username!=null and username != ''">
+                and username = #{username}
+            </if>
+            <if test="password!=null and password!=''">
+                and password = #{password}
+            </if>
+            <if test="phone!=null and phone!=''">
+                and phone = #{phone}
+            </if>
+            <if test="email!=null and email!=''">
+                and email = #{email}
+            </if>
+        </where>
+    </select>
+<!--插入用户信息-->
+    <insert id="addUser" parameterType="UserDTO">
+        insert into t_user(username, phone, email, password)
+        values ( #{username}, #{phone}, #{email}, #{password})
+    </insert>
+<!--修改用户信息-->
+    <update id="updateUser" parameterType="UserDTO">
+        update t_user
+        <set>
+            <if test="username!=null and username !=''">
+                username = #{username},
+            </if>
+            <if test="password!=null and password!=''">
+                password = #{password},
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone = #{phone},
+            </if>
+            <if test="email!=null and email!=''">
+                email = #{email},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+<!--删除用户信息-->
+    <delete id="deleteUser" parameterType="UserDTO">
+        delete from t_user where id = #{id}
+    </delete>
+
+
+
+</mapper>

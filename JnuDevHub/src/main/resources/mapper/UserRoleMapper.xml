@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.jnu.devhub.mapper.UserRoleMapper">
+<!--    查询对应用户权限-->
+    <select id="findRoleIdById" resultType="UserRoleVO" parameterType="UserDTO">
+        select * from t_user_role where userId = #{id} order by roleId ASC
+    </select>
+
+<!--   添加对应用户权限 -->
+    <insert id="addRoleByUserIdRoleId" parameterType="UserDTO">
+        insert into t_user_role(userId, roleId) values (#{id}, #{roleId})
+    </insert>
+
+<!--    删除对应权限-->
+    <delete id="deleteRoleByUserIdRoleId" parameterType="UserDTO">
+        delete from t_user_role where userId = #{id} and roleId = #{roleId}
+    </delete>
+</mapper>
